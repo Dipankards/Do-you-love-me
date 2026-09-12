@@ -1,171 +1,520 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Is Your Love True? 💕 | Love Calculator & Prank</title>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080308">
+    <title>Happy Birthday Tiku ❤️</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Animated Background Canvas for Floating Hearts -->
-  <canvas id="hearts-canvas"></canvas>
 
-  <div class="main-wrapper">
-    <!-- Header / Branding -->
-    <header class="app-header">
-      <div class="badge-pill">
-        <i class="fa-solid fa-heart-pulse"></i> 100% Scientific & True Test
-      </div>
-      <h1 class="glow-title">Is Your Love True? <span class="heart-emoji">💖</span></h1>
-      <p class="subtitle">Enter your details below to unveil the universe's verdict on your relationship!</p>
-    </header>
+<!-- =====================================================
+     FLOATING HEARTS
+===================================================== -->
+<div class="hearts" aria-hidden="true">
+    <span>❤️</span>
+    <span>💗</span>
+    <span>💕</span>
+    <span>💖</span>
+    <span>❤️</span>
+    <span>💗</span>
+    <span>💕</span>
+    <span>💖</span>
+</div>
 
-    <!-- STEP 1: Details Form Screen -->
-    <section id="form-screen" class="glass-card active-step">
-      <div class="card-header">
-        <div class="step-indicator">Step 1 of 2</div>
-        <h2>Tell Us About You Two</h2>
-      </div>
-
-      <form id="love-form" autocomplete="off" onsubmit="return false;">
-        <!-- Your Name -->
-        <div class="input-group">
-          <label for="your-name">
-            <i class="fa-solid fa-user"></i> Your Name
-          </label>
-          <div class="input-wrapper">
-            <input 
-              type="text" 
-              id="your-name" 
-              placeholder="e.g. Romeo / Juliet" 
-              required 
-              maxlength="30" 
-            />
-            <span class="input-focus-border"></span>
-          </div>
-        </div>
-
-        <!-- Partner's Name -->
-        <div class="input-group">
-          <label for="partner-name">
-            <i class="fa-solid fa-heart"></i> Partner's Name
-          </label>
-          <div class="input-wrapper">
-            <input 
-              type="text" 
-              id="partner-name" 
-              placeholder="e.g. Juliet / Romeo" 
-              required 
-              maxlength="30" 
-            />
-            <span class="input-focus-border"></span>
-          </div>
-        </div>
-
-        <!-- Gender Selection -->
-        <div class="input-group">
-          <label>
-            <i class="fa-solid fa-venus-mars"></i> Your Gender
-          </label>
-          <div class="gender-selector">
-            <label class="gender-card" id="gender-male-card">
-              <input type="radio" name="gender" value="male" />
-              <div class="gender-content">
-                <span class="gender-icon">👨</span>
-                <span class="gender-title">Male</span>
-              </div>
-            </label>
-
-            <label class="gender-card" id="gender-female-card">
-              <input type="radio" name="gender" value="female" />
-              <div class="gender-content">
-                <span class="gender-icon">👩</span>
-                <span class="gender-title">Female</span>
-              </div>
-            </label>
-          </div>
-          <p id="gender-error" class="error-msg">Please select your gender!</p>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" id="check-btn" class="glow-btn primary-btn">
-          <span>Calculate Love Compatibility</span>
-          <i class="fa-solid fa-sparkles"></i>
-        </button>
-      </form>
-    </section>
-
-    <!-- STEP 2: The Question Screen (Prank Zone) -->
-    <section id="question-screen" class="glass-card">
-      <div class="card-header">
-        <div class="step-indicator">Step 2 of 2</div>
-        <div class="couple-badge">
-          <span id="badge-your-name">You</span> 
-          <i class="fa-solid fa-heart-pulse love-icon-pulse"></i> 
-          <span id="badge-partner-name">Partner</span>
-        </div>
-      </div>
-
-      <div class="question-content">
-        <h2 id="dynamic-question-text" class="question-title">
-          Do you love him?
-        </h2>
-        <p class="question-subtext" id="evasive-taunt">
-          Be 100% honest! The machine detects your true feelings...
-        </p>
-
-        <!-- Dynamic Action Buttons -->
-        <div class="action-buttons-container" id="button-playground">
-          <button type="button" id="btn-yes" class="choice-btn yes-btn">
-            <i class="fa-solid fa-heart"></i> Yes
-          </button>
-          <button type="button" id="btn-no" class="choice-btn no-btn">
-            <i class="fa-solid fa-xmark"></i> No
-          </button>
-        </div>
-
-        <p id="prank-counter-text" class="prank-counter hidden">
-          Dodged attempts: <span id="dodge-count">0</span> 🏃💨
-        </p>
-      </div>
-    </section>
-  </div>
-
-  <!-- RESULT POPUP MODAL -->
-  <div id="result-modal" class="modal-backdrop">
-    <div class="modal-card">
-      <div class="modal-decor" id="modal-decor-icon">🎉</div>
-      <h2 id="modal-title" class="modal-title">Result Title</h2>
-      <p id="modal-msg" class="modal-msg">Result Message goes here</p>
-
-      <div class="modal-score-box" id="modal-score-box">
-        <span class="score-label">Compatibility Score:</span>
-        <span id="modal-score-value" class="score-value">100%</span>
-      </div>
-
-      <div class="modal-actions">
-        <button id="btn-restart" class="glow-btn restart-btn">
-          <i class="fa-solid fa-rotate-right"></i> Try Again
-        </button>
-        <button id="btn-share" class="glow-btn share-btn">
-          <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
-        </button>
-      </div>
+<!-- =====================================================
+     OPENING SCREEN (REVEAL SCREEN)
+===================================================== -->
+<main class="opening-screen" id="home">
+    <!-- INTRO -->
+    <div class="intro-text">
+        A LITTLE SOMETHING I MADE FOR YOU...
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- MONKEY + DUCK ANIMATION -->
+    <div class="animation-area">
+        <img src="assets/photos/monkey.png" alt="Cute Monkey" class="character monkey" id="monkey">
+        <img src="assets/photos/duck.png" alt="Cute Duck" class="character duck" id="duck">
+        <img src="assets/photos/hug.png" alt="Monkey and Duck Hugging" class="hug-character" id="hug">
+    </div>
+
+    <!-- TIKU PHOTO -->
+    <div class="tiku-photo-container" id="tikuPhoto">
+        <div class="photo-glow"></div>
+        <img src="assets/photos/tikucover.jpg" alt="Tiku" class="tiku-photo">
+    </div>
+
+    <!-- BIRTHDAY MESSAGE -->
+    <section class="birthday-content">
+        <h1>
+            Happy Birthday Tiku
+            <span class="title-heart">❤️</span>
+        </h1>
+        <p class="love-line">
+            Mur priyo Patihah,<br>
+            from your Bandor. 🐒❤️🦆
+        </p>
+        <p class="quote">
+            Some people become a part of your life...<br>
+            and some people become your life.
+        </p>
+        <button id="beginStory" type="button">
+            ✨ Begin Our Story ❤️
+        </button>
+    </section>
+</main>
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+<nav class="main-navigation">
+    <a href="#story">Our Story</a>
+    <a href="#childhood">Childhood</a>
+    <a href="#memories">Memories</a>
+    <a href="#videos">Videos</a>
+    <a href="#voices">Voice</a>
+    <a href="#chats">Chats</a>
+    <a href="#promises">Promises</a>
+</nav>
+
+<!-- =====================================================
+     01 — OUR STORY
+===================================================== -->
+<section id="story" class="website-section our-story-section">
+    <div class="our-story-heading">
+        <span>01 — OUR STORY</span>
+        <h2>Where an unexpected parcel changed everything ❤️</h2>
+        <p>Sometimes the most beautiful stories begin in the most unexpected ways.</p>
+    </div>
+
+    <div class="love-story-timeline">
+        <article class="story-chapter">
+            <div class="story-icon">📦</div>
+            <div class="story-card-new">
+                <span class="chapter-number">CHAPTER 01</span>
+                <h3>The Unexpected Delivery</h3>
+                <p>It all started with a simple parcel.</p>
+                <p>At that time, I was working as a courier boy, delivering parcels from one place to another.</p>
+                <p>One day, I came to your home with a parcel...</p>
+                <p class="story-highlight">Without knowing that this small delivery would someday become the beginning of our story. ❤️</p>
+            </div>
+        </article>
+
+        <div class="story-connector"></div>
+
+        <article class="story-chapter reverse">
+            <div class="story-icon">📞</div>
+            <div class="story-card-new">
+                <span class="chapter-number">CHAPTER 02</span>
+                <h3>One Simple Call</h3>
+                <p>I called you so you could come and collect your parcel.</p>
+                <p>I asked about your home address so I could find the right place and complete the delivery.</p>
+                <p class="story-highlight">Little did I know that one simple call would eventually lead to so many conversations, memories, and beautiful moments. ❤️</p>
+            </div>
+        </article>
+
+        <div class="story-connector"></div>
+
+        <article class="story-chapter">
+            <div class="story-icon">💃</div>
+            <div class="story-card-new">
+                <span class="chapter-number">CHAPTER 03</span>
+                <h3>Just a Friend</h3>
+                <p>At first, you were simply a friend to me. You were a dance teacher, and I worked at an office near your school.</p>
+                <p class="story-highlight">Maybe some meetings are not just coincidences after all. ✨</p>
+            </div>
+        </article>
+
+        <div class="story-connector"></div>
+
+        <article class="story-chapter reverse">
+            <div class="story-icon">🏍️</div>
+            <div class="story-card-new">
+                <span class="chapter-number">CHAPTER 04</span>
+                <h3>Every Sunday</h3>
+                <p>Every Sunday, I would drop you at your school on my bike. Those small rides became some of my favourite moments.</p>
+                <div class="ride-lines">
+                    <span>The roads... 🛣️</span>
+                    <span>The conversations... 💬</span>
+                    <span>The laughter... 😂</span>
+                    <span>And simply being together... ❤️</span>
+                </div>
+            </div>
+        </article>
+
+        <div class="story-connector heart-connector">❤️</div>
+
+        <article class="story-final">
+            <div class="final-story-heart">❤️</div>
+            <span>SOMEWHERE ALONG THE JOURNEY...</span>
+            <h3>You became special.</h3>
+            <p>Somewhere between those Sunday rides, the ordinary moments, and all those little conversations, something quietly changed.</p>
+            <h4><strong>You became someone very special to me. ❤️</strong></h4>
+            <div class="story-ending">
+                <div>🐒 ❤️ 🦆</div>
+                <p>And that's how a Courier Boy 🐒 and a Dance Teacher 🦆 started writing their own story. ❤️</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- =====================================================
+     CHILDHOOD
+===================================================== -->
+<section class="website-section childhood-section" id="childhood">
+    <div class="section-heading">
+        <span>02</span>
+        <h2>You Grew From Here... 🌸</h2>
+        <p>Before you became the person I know and love today, there was a little girl with her own beautiful story.</p>
+    </div>
+    <div class="childhood-timeline">
+        <div class="timeline-item">
+            <div class="timeline-number">01</div>
+            <div class="timeline-content">
+                <h3>Little Tiku 👶</h3>
+                <div class="childhood-photo-frame">
+                    <img src="assets/photos/childhood_tiku.jpg" alt="Little Tiku Childhood Photo">
+                </div>
+                <p>The little girl who had no idea how many beautiful memories she would create one day.</p>
+            </div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-item">
+            <div class="timeline-number">02</div>
+            <div class="timeline-content">
+                <h3>Growing Up 🌷</h3>
+                <div class="childhood-photo-frame">
+                    <img src="assets/photos/teen_tiku.jpg" alt="Tiku Teenage Photo">
+                </div>
+                <p>Years passed, memories were made, and that little girl slowly became the amazing person she is today.</p>
+            </div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-item">
+            <div class="timeline-number">03</div>
+            <div class="timeline-content">
+                <h3>And Then I Met You ❤️</h3>
+                <div class="childhood-photo-frame">
+                    <img src="assets/photos/our_photo-now.jpg" alt="Our Photo Together">
+                </div>
+                <p>And somewhere along the way, our paths crossed.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     CUTE MOMENTS
+===================================================== -->
+<section class="website-section moments-section" id="moments">
+    <div class="section-heading">
+        <span>03</span>
+        <h2>Our Cute Moments 🥰</h2>
+        <p>The little moments that became some of my favourite memories.</p>
+    </div>
+    <div class="memory-message-grid">
+        <div class="memory-message">
+            <div class="memory-icon">🥰</div>
+            <h3>Your Smile</h3>
+            <p>One smile from you can make an ordinary day feel special.</p>
+        </div>
+        <div class="memory-message">
+            <div class="memory-icon">🐒❤️🦆</div>
+            <h3>Monkey & Duck</h3>
+            <p>Somehow you became my moromot patihah and I became your Bandor.</p>
+        </div>
+        <div class="memory-message">
+            <div class="memory-icon">💕</div>
+            <h3>Little Things</h3>
+            <p>It's never just the big moments. It's all those tiny things I remember.</p>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     MEMORIES GALLERY
+===================================================== -->
+<section class="website-section memories-section" id="memories">
+    <div class="section-heading">
+        <span>04</span>
+        <h2>Our Memories 📸</h2>
+        <p>A collection of moments I never want to forget.</p>
+    </div>
+    <div class="gallery-grid">
+        <div class="gallery-item"><img src="assets/photos/memory1.jpeg" alt="Memory 1"></div>
+        <div class="gallery-item"><img src="assets/photos/memory2.jpg" alt="Memory 2"></div>
+        <div class="gallery-item"><img src="assets/photos/1000144391.jpg" alt="Memory 3"></div>
+        <div class="gallery-item"><img src="assets/photos/firstmovie.jpg" alt="Memory 4"></div>
+        <div class="gallery-item"><img src="assets/photos/memory5.jpg" alt="Memory 5"></div>
+        <div class="gallery-item"><img src="assets/photos/memory6.jpg" alt="Memory 6"></div>
+        <div class="gallery-item"><img src="assets/photos/memory7.jpg" alt="Memory 7"></div>
+        <div class="gallery-item"><img src="assets/photos/memory8.jpg" alt="Memory 8"></div>
+        <div class="gallery-item"><img src="assets/photos/memory9.jpg" alt="Memory 9"></div>
+        <div class="gallery-item"><img src="assets/photos/memory10.jpg" alt="Memory 10"></div>
+        <div class="gallery-item"><img src="assets/photos/memory11.jpg" alt="Memory 11"></div>
+        <div class="gallery-item"><img src="assets/photos/memory12.jpg" alt="Memory 12"></div>
+        <div class="gallery-item"><img src="assets/photos/memory13.jpg" alt="Memory 13"></div>
+        <div class="gallery-item"><img src="assets/photos/memory14.jpg" alt="Memory 14"></div>
+        <div class="gallery-item"><img src="assets/photos/memory15.jpg" alt="Memory 15"></div>
+        <div class="gallery-item"><img src="assets/photos/memory16.jpg" alt="Memory 16"></div>
+        <div class="gallery-item"><img src="assets/photos/memory17.jpg" alt="Memory 17"></div>
+        <div class="gallery-item"><img src="assets/photos/memory18.jpg" alt="Memory 18"></div>
+        <div class="gallery-item"><img src="assets/photos/memory19.jpg" alt="Memory 19"></div>
+        <div class="gallery-item"><img src="assets/photos/memory20.jpg" alt="Memory 20"></div>
+        <div class="gallery-item"><img src="assets/photos/memory21.jpg" alt="Memory 21"></div>
+        <div class="gallery-item"><img src="assets/photos/our_photo-now.jpg" alt="Memory"></div>
+        <div class="gallery-item"><img src="assets/photos/memory23.jpg" alt="Memory 23"></div>
+        <div class="gallery-item"><img src="assets/photos/memory24.jpg" alt="Memory 24"></div>
+        <div class="gallery-item"><img src="assets/photos/memory25.jpg" alt="Memory 25"></div>
+        <div class="gallery-item"><img src="assets/photos/memory26.jpg" alt="Memory 26"></div>
+    </div>
+</section>
+
+<!-- =====================================================
+     VIDEOS
+===================================================== -->
+<section class="website-section videos-section" id="videos">
+    <div class="section-heading">
+        <span>05</span>
+        <h2>Our Videos 🎥</h2>
+        <p>Some moments deserve to be remembered not only in photographs, but in motion.</p>
+    </div>
+    <div class="video-gallery">
+        <div class="video-card">
+            <video controls preload="metadata" playsinline width="100%">
+                <source src="wedding.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-title">One Of Our Beautiful Moments ❤️</div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     VOICE MESSAGES
+===================================================== -->
+<section class="website-section voices-section" id="voices">
+    <div class="section-heading">
+        <span>06</span>
+        <h2>Your Voice 🎙️</h2>
+        <p>Some things are even more special when I can hear them in your voice.</p>
+    </div>
+    <div class="voice-card">
+        <div class="voice-icon">🎙️</div>
+        <div class="voice-info">
+            <h3>A Voice I Could Listen To Forever</h3>
+            <p>Your voice message ❤️</p>
+            <div class="audio-placeholder">🎧 Add your voice message here</div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     CHAT SCREENSHOTS
+===================================================== -->
+<section class="website-section chats-section" id="chats">
+    <div class="section-heading">
+        <span>07</span>
+        <h2>Our Chats 💬</h2>
+        <p>Conversations that somehow became memories.</p>
+    </div>
+    <div class="chat-story">
+        <div class="chat-bubble sent">Ui, Ki korisa 🥰</div>
+        <div class="chat-bubble received">Pohibole bohi asu, tuponi ahise.😴</div>
+        <div class="chat-bubble sent">Tuponi Vangi diu neki 😉</div>
+        <div class="chat-bubble received">dia dia🥰❤️</div>
+        <div class="chat-bubble sent">Tente xuna .....😙</div>
+    </div>
+</section>
+
+<!-- =====================================================
+     ANIMATED CHAT STORY
+===================================================== -->
+<section class="website-section animated-chat-section">
+    <div class="section-heading">
+        <span>08</span>
+        <h2>A sweet Photo Gallery ❤️</h2>
+        <p>Your own little movie.</p>
+    </div>
+    <iframe allowfullscreen="allowfullscreen" allow="autoplay; fullscreen; clipboard-write" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/dac20d0a91.html" style="border: 1px solid lightgray; width: 100%; height: 600px;"></iframe>
+</section>
+
+<!-- =====================================================
+     THINGS I LOVE
+===================================================== -->
+<section class="website-section love-section">
+    <div class="section-heading">
+        <span>09</span>
+        <h2>Things I Love About You 💗</h2>
+        <p>I could probably write a book... but here are a few.</p>
+    </div>
+    <div class="love-grid">
+        <div class="love-card">
+            <span>❤️</span>
+            <h3>Your Smile</h3>
+            <p>It makes everything feel better.</p>
+        </div>
+        <div class="love-card">
+            <span>🥰</span>
+            <h3>Your Cuteness</h3>
+            <p>Especially when you don't realise how cute you are.</p>
+        </div>
+        <div class="love-card">
+            <span>😂</span>
+            <h3>Your Crazy Side</h3>
+            <p>Life would definitely be boring without it.</p>
+        </div>
+        <div class="love-card">
+            <span>💗</span>
+            <h3>Your Heart</h3>
+            <p>The beautiful person you are inside.</p>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     PROMISES
+===================================================== -->
+<section class="website-section promises-section" id="promises">
+    <div class="section-heading">
+        <span>10</span>
+        <h2>Our Promises 🤞❤️</h2>
+        <p>A few promises from your Bandor.</p>
+    </div>
+    <div class="promise-list">
+        <div class="promise">
+            <span>01</span>
+            <p>I promise to keep choosing you, even on ordinary days.</p>
+        </div>
+        <div class="promise">
+            <span>02</span>
+            <p>I promise to stand beside you through every chapter.</p>
+        </div>
+        <div class="promise">
+            <span>03</span>
+            <p>I promise to keep making you smile.</p>
+        </div>
+        <div class="promise">
+            <span>04</span>
+            <p>I promise that your happiness will always matter to me.</p>
+        </div>
+        <div class="promise">
+            <span>05</span>
+            <p>And I promise to always be your Bandor. 🐒❤️</p>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     LOVE LETTER
+===================================================== -->
+<section class="website-section letter-section">
+    <div class="section-heading">
+        <span>11</span>
+        <h2>A Letter For You 💌</h2>
+    </div>
+    <div class="love-letter">
+        <p>My favourite Duck,</p>
+        <p>Happy Birthday to the person who has become such a beautiful part of my life.</p>
+        <p>I don't know if words will ever be enough to explain how much you mean to me, but I wanted to create this little corner of the internet just for you.</p>
+        <p>Every photograph, every conversation, every silly moment and every little memory means something to me.</p>
+        <p>Thank you for being you.</p>
+        <p>And thank you for letting your Bandor be a part of your story. 🐒❤️🦆</p>
+        <div class="letter-signature">
+            Forever yours,<br>
+            Your Bandor 🐒❤️
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     FINAL SURPRISE (AUTO-PLAY / SINGLE ACTIVE VIDEOS)
+===================================================== -->
+<section class="final-surprise" id="surprise">
+    <div class="final-hearts">❤️ 💗 💕 💖 ❤️</div>
+    <h2>This Is Just The Beginning...</h2>
+    <p>There are still so many memories left for us to create.</p>
+
+    <!-- Video with autoplay & Intersection Observer capability -->
+    <video class="auto-play-video" controls muted playsinline width="100%">
+        <source src="assets/photos/Video-27625.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="video-section">
+        <h3>A Wish from Your Wellwishers</h3>
+        <video class="auto-play-video" controls muted playsinline width="100%">
+            <source src="assets/photos/Video-90099.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <h3>A Wish from Rajasthan</h3>
+        <video class="auto-play-video" controls muted playsinline width="100%">
+            <source src="assets/photos/Video-6945.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <h3>A Wish from Your Crush</h3>
+        <video class="auto-play-video" controls muted playsinline width="100%">
+            <source src="assets/photos/Video-53349.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+<footer>
+    Made with ❤️ by your Bandor 🐒
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT (Opening Screen & Auto-Play Video Logic)
+===================================================== -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. Opening Screen / Reveal Logic
+        const beginButton = document.getElementById("beginStory");
+        const openingScreen = document.getElementById("home");
+
+        if (beginButton && openingScreen) {
+            beginButton.addEventListener("click", () => {
+                openingScreen.classList.add("hidden");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // 2. Auto-Play Video on Scroll Logic (Only plays the one showing most on screen, pauses others)
+        const videos = document.querySelectorAll(".auto-play-video");
+
+        const observerOptions = {
+            root: null,
+            threshold: 0.6 // Triggers when 60% of the video is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    videos.forEach(v => {
+                        if (v !== video) v.pause();
+                    });
+                    video.play().catch(error => {
+                        console.log("Autoplay prevented by browser policy:", error);
+                    });
+                } else {
+                    video.pause();
+                }
+            });
+        }, observerOptions);
+
+        videos.forEach(video => observer.observe(video));
+    });
+</script>
+
 </body>
 </html>
